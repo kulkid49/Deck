@@ -150,7 +150,7 @@ export async function exportToPptx(presentation: Presentation, brandColors: Bran
 
     // Speaker Notes
     if (slide.notes) {
-      pptSlide.notes = slide.notes;
+      pptSlide.addNotes(slide.notes);
     }
   });
 

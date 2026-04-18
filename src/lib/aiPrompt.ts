@@ -96,14 +96,18 @@ export function validatePresentation(data: unknown): Presentation {
   const slides = obj.slides.map((s: unknown, i: number) => {
     if (typeof s !== 'object' || s === null) throw new Error(`Slide ${i} not object`);
     const slide = s as Record<string, unknown>;
-    if (!validLayouts.has(slide.layout as string)) {
-      (slide as Record<string, unknown>).layout = 'titleAndContent';
-    }
+    
+    // Ensure required properties for Slide type
     if (!slide.id) slide.id = `slide-${i + 1}`;
-    return slide;
+    if (!slide.title) slide.title = '';
+    if (!validLayouts.has(slide.layout as string)) {
+      slide.layout = 'titleAndContent';
+    }
+    
+    return slide as unknown as Slide;
   });
 
-  return { title: obj.title as string, slides: slides as Presentation['slides'] };
+  return { title: obj.title as string, slides };
 }
 
 export const DEMO_PRESENTATION: Presentation = {
