@@ -238,6 +238,7 @@ const App: React.FC = () => {
                     onChange={(e) => setApiSettings({ model: e.target.value })}
                     className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:border-brand-500 transition-all appearance-none"
                   >
+                    <option value="auto">Auto-Select (Smart Routing)</option>
                     <option value="openai/gpt-4o">GPT-4o (Recommended)</option>
                     <option value="openai/gpt-4o-mini">GPT-4o Mini (Fast & Cheap)</option>
                     <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
