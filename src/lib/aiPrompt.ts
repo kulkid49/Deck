@@ -1,4 +1,4 @@
-import type { PresentationConfig, Presentation } from '../types/presentation';
+import type { PresentationConfig, Presentation, Slide } from '../types/presentation';
 
 export const SYSTEM_PROMPT = `You are an elite presentation designer and communication strategist with 20+ years of experience crafting boardroom-ready PowerPoint presentations for Fortune 500 companies, TED speakers, and venture-backed startups. You combine the storytelling mastery of McKinsey, the visual clarity of Apple keynotes, and the persuasive power of top-tier pitch decks.
 
