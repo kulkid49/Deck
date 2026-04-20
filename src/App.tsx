@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppStore } from './store/useAppStore';
 import { Editor } from './components/Editor';
 import { generatePresentation } from './lib/openai';
@@ -31,6 +31,20 @@ const App: React.FC = () => {
   } = useAppStore();
 
   const [error, setError] = useState<string | null>(null);
+
+  // Migrate legacy model IDs on mount
+  useEffect(() => {
+    if (apiSettings.model && !apiSettings.model.includes('/')) {
+      let upgradedModel = apiSettings.model;
+      if (upgradedModel.startsWith('gpt-')) upgradedModel = `openai/${upgradedModel}`;
+      else if (upgradedModel.startsWith('claude-')) upgradedModel = `anthropic/${upgradedModel}`;
+      else if (upgradedModel.startsWith('gemini-')) upgradedModel = `google/${upgradedModel}`;
+      
+      if (upgradedModel !== apiSettings.model) {
+        setApiSettings({ model: upgradedModel });
+      }
+    }
+  }, [apiSettings.model, setApiSettings]);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
