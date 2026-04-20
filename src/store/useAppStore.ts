@@ -27,8 +27,8 @@ const DEFAULT_CONFIG: PresentationConfig = {
 
 const DEFAULT_API_SETTINGS: ApiSettings = {
   apiKey: '',
-  baseUrl: 'https://api.openai.com/v1',
-  model: 'gpt-4o',
+  baseUrl: 'https://openrouter.ai/api/v1',
+  model: 'openai/gpt-4o',
   temperature: 0.7,
 };
 

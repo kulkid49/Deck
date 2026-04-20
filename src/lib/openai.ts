@@ -13,8 +13,12 @@ export async function generatePresentation(
 
   const client = new OpenAI({
     apiKey: apiSettings.apiKey,
-    baseURL: apiSettings.baseUrl || 'https://api.openai.com/v1',
+    baseURL: apiSettings.baseUrl || 'https://openrouter.ai/api/v1',
     dangerouslyAllowBrowser: true,
+    defaultHeaders: {
+      'HTTP-Referer': window.location.origin,
+      'X-OpenRouter-Title': 'ai-ppt-forge',
+    },
   });
 
   onProgress?.(10);
@@ -24,7 +28,7 @@ export async function generatePresentation(
   onProgress?.(20);
 
   const response = await client.chat.completions.create({
-    model: apiSettings.model || 'gpt-4o',
+    model: apiSettings.model || 'openai/gpt-4o',
     temperature: apiSettings.temperature ?? 0.7,
     max_tokens: 8000,
     messages: [
@@ -72,12 +76,16 @@ export async function regenerateSlide(
 
   const client = new OpenAI({
     apiKey: apiSettings.apiKey,
-    baseURL: apiSettings.baseUrl || 'https://api.openai.com/v1',
+    baseURL: apiSettings.baseUrl || 'https://openrouter.ai/api/v1',
     dangerouslyAllowBrowser: true,
+    defaultHeaders: {
+      'HTTP-Referer': window.location.origin,
+      'X-OpenRouter-Title': 'ai-ppt-forge',
+    },
   });
 
   const response = await client.chat.completions.create({
-    model: apiSettings.model || 'gpt-4o',
+    model: apiSettings.model || 'openai/gpt-4o',
     temperature: (apiSettings.temperature ?? 0.7) + 0.1,
     max_tokens: 2000,
     messages: [

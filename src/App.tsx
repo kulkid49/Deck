@@ -34,7 +34,7 @@ const App: React.FC = () => {
 
   const handleGenerate = async () => {
     if (!apiSettings.apiKey) {
-      setError('Please add your OpenAI API key in Settings.');
+      setError('Please add your OpenRouter API key in Settings.');
       return;
     }
 
@@ -237,14 +237,14 @@ const App: React.FC = () => {
 
               {/* API Key Field */}
               <div className="space-y-2">
-                <label className="text-sm font-bold text-surface-500 uppercase tracking-wider px-1">OpenAI API Key</label>
+                <label className="text-sm font-bold text-surface-500 uppercase tracking-wider px-1">OpenRouter API Key</label>
                 <div className="relative">
                   <input 
                     type="password"
                     value={apiSettings.apiKey}
                     onChange={(e) => setApiSettings({ apiKey: e.target.value })}
-                    placeholder="sk-..."
-                    className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:border-brand-500 transition-all pl-12"
+                    placeholder="sk-or-v1-..."
+                    className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all pl-12"
                   />
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-500">
                     <SettingsIcon size={20} />
