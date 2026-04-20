@@ -91,7 +91,20 @@ export const useAppStore = create<AppState>()(
 
       apiSettings: DEFAULT_API_SETTINGS,
       setApiSettings: (settings) =>
-        set((s) => ({ apiSettings: { ...s.apiSettings, ...settings } })),
+        set((s) => {
+          const newSettings = { ...s.apiSettings, ...settings };
+          // Auto-fix legacy model IDs if they don't have a provider prefix
+          if (newSettings.model && !newSettings.model.includes('/')) {
+            if (newSettings.model.startsWith('gpt-')) {
+              newSettings.model = `openai/${newSettings.model}`;
+            } else if (newSettings.model.startsWith('claude-')) {
+              newSettings.model = `anthropic/${newSettings.model}`;
+            } else if (newSettings.model.startsWith('gemini-')) {
+              newSettings.model = `google/${newSettings.model}`;
+            }
+          }
+          return { apiSettings: newSettings };
+        }),
 
       presentation: null,
       setPresentation: (presentation) => {

@@ -29,17 +29,24 @@ export async function generatePresentation(
 
   onProgress?.(20);
 
+  // Ensure model ID has a provider prefix for OpenRouter
+  let modelId = apiSettings.model || 'openai/gpt-4o';
+  if (!modelId.includes('/')) {
+    if (modelId.startsWith('gpt-')) modelId = `openai/${modelId}`;
+    else if (modelId.startsWith('claude-')) modelId = `anthropic/${modelId}`;
+    else if (modelId.startsWith('gemini-')) modelId = `google/${modelId}`;
+  }
+
   // Some models on OpenRouter don't support response_format: { type: 'json_object' }
-  // We'll only include it for OpenAI and Gemini models which are more likely to support it
   const supportsJsonMode = 
-    apiSettings.model.includes('openai/') || 
-    apiSettings.model.includes('google/') ||
-    apiSettings.model.includes('gpt-');
+    modelId.includes('openai/') || 
+    modelId.includes('google/') ||
+    modelId.includes('gpt-');
 
   const response = await client.chat.completions.create({
-    model: apiSettings.model || 'openai/gpt-4o',
+    model: modelId,
     temperature: apiSettings.temperature ?? 0.7,
-    max_tokens: 4000, // Reduced from 8000 for better model compatibility
+    max_tokens: 4000,
     messages: [
       { role: 'system', content: SYSTEM_PROMPT },
       { role: 'user', content: userPrompt },
@@ -95,13 +102,21 @@ export async function regenerateSlide(
     },
   });
 
+  // Ensure model ID has a provider prefix for OpenRouter
+  let modelId = apiSettings.model || 'openai/gpt-4o';
+  if (!modelId.includes('/')) {
+    if (modelId.startsWith('gpt-')) modelId = `openai/${modelId}`;
+    else if (modelId.startsWith('claude-')) modelId = `anthropic/${modelId}`;
+    else if (modelId.startsWith('gemini-')) modelId = `google/${modelId}`;
+  }
+
   const supportsJsonMode = 
-    apiSettings.model.includes('openai/') || 
-    apiSettings.model.includes('google/') ||
-    apiSettings.model.includes('gpt-');
+    modelId.includes('openai/') || 
+    modelId.includes('google/') ||
+    modelId.includes('gpt-');
 
   const response = await client.chat.completions.create({
-    model: apiSettings.model || 'openai/gpt-4o',
+    model: modelId,
     temperature: (apiSettings.temperature ?? 0.7) + 0.1,
     max_tokens: 2000,
     messages: [

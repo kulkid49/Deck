@@ -229,8 +229,10 @@ const App: React.FC = () => {
                     <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
                     <option value="google/gemini-pro-1.5">Gemini Pro 1.5</option>
                     <option value="google/gemini-flash-1.5">Gemini Flash 1.5</option>
+                    <option value="meta-llama/llama-3.1-405b-instruct">Llama 3.1 405B (Powerful)</option>
                     <option value="meta-llama/llama-3.1-70b-instruct">Llama 3.1 70B</option>
                     <option value="mistralai/mistral-large-2407">Mistral Large 2</option>
+                    <option value="perplexity/llama-3.1-sonar-large-128k-online">Sonar Large (Web Access)</option>
                   </select>
                 </div>
               </div>
