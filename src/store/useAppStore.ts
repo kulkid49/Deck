@@ -26,7 +26,7 @@ const DEFAULT_CONFIG: PresentationConfig = {
 };
 
 const DEFAULT_API_SETTINGS: ApiSettings = {
-  apiKey: '',
+  apiKey: import.meta.env.VITE_OPENROUTER_API_KEY || '',
   baseUrl: 'https://openrouter.ai/api/v1',
   model: 'openai/gpt-4o',
   temperature: 0.7,

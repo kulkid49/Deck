@@ -33,11 +33,6 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async () => {
-    if (!apiSettings.apiKey) {
-      setError('Please add your OpenRouter API key in Settings.');
-      return;
-    }
-
     setIsGenerating(true);
     setError(null);
     setGenerationProgress(0);
@@ -223,34 +218,31 @@ const App: React.FC = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-surface-500 uppercase tracking-wider px-1">Slide Count</label>
-                  <input 
-                    type="number"
-                    min={3}
-                    max={20}
-                    value={config.slideCount}
-                    onChange={(e) => setConfig({ slideCount: parseInt(e.target.value) })}
-                    className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:border-brand-500 transition-all"
-                  />
+                  <label className="text-sm font-bold text-surface-500 uppercase tracking-wider px-1">Model Selection</label>
+                  <select 
+                    value={apiSettings.model}
+                    onChange={(e) => setApiSettings({ model: e.target.value })}
+                    className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:border-brand-500 transition-all appearance-none"
+                  >
+                    <option value="openai/gpt-4o">GPT-4o (Recommended)</option>
+                    <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                    <option value="google/gemini-pro-1.5">Gemini Pro 1.5</option>
+                    <option value="meta-llama/llama-3-70b-instruct">Llama 3 70B</option>
+                    <option value="mistralai/mistral-large">Mistral Large</option>
+                  </select>
                 </div>
               </div>
 
-              {/* API Key Field */}
               <div className="space-y-2">
-                <label className="text-sm font-bold text-surface-500 uppercase tracking-wider px-1">OpenRouter API Key</label>
-                <div className="relative">
-                  <input 
-                    type="password"
-                    value={apiSettings.apiKey}
-                    onChange={(e) => setApiSettings({ apiKey: e.target.value })}
-                    placeholder="sk-or-v1-..."
-                    className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all pl-12"
-                  />
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-500">
-                    <SettingsIcon size={20} />
-                  </div>
-                </div>
-                <p className="text-xs text-surface-600 px-1">Your key is stored locally and never sent to our servers.</p>
+                <label className="text-sm font-bold text-surface-500 uppercase tracking-wider px-1">Slide Count</label>
+                <input 
+                  type="number"
+                  min={3}
+                  max={20}
+                  value={config.slideCount}
+                  onChange={(e) => setConfig({ slideCount: parseInt(e.target.value) })}
+                  className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:border-brand-500 transition-all"
+                />
               </div>
 
               {error && (

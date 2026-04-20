@@ -7,12 +7,14 @@ export async function generatePresentation(
   apiSettings: ApiSettings,
   onProgress?: (pct: number) => void
 ): Promise<Presentation> {
-  if (!apiSettings.apiKey) {
-    throw new Error('No API key configured. Please add your API key in Settings.');
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || apiSettings.apiKey;
+  
+  if (!apiKey) {
+    throw new Error('No API key configured. Please add VITE_OPENROUTER_API_KEY to your .env file.');
   }
 
   const client = new OpenAI({
-    apiKey: apiSettings.apiKey,
+    apiKey,
     baseURL: apiSettings.baseUrl || 'https://openrouter.ai/api/v1',
     dangerouslyAllowBrowser: true,
     defaultHeaders: {
@@ -70,12 +72,14 @@ export async function regenerateSlide(
   config: PresentationConfig,
   apiSettings: ApiSettings
 ): Promise<unknown> {
-  if (!apiSettings.apiKey) {
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || apiSettings.apiKey;
+
+  if (!apiKey) {
     throw new Error('No API key configured.');
   }
 
   const client = new OpenAI({
-    apiKey: apiSettings.apiKey,
+    apiKey,
     baseURL: apiSettings.baseUrl || 'https://openrouter.ai/api/v1',
     dangerouslyAllowBrowser: true,
     defaultHeaders: {
