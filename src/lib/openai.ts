@@ -29,15 +29,22 @@ export async function generatePresentation(
 
   onProgress?.(20);
 
+  // Some models on OpenRouter don't support response_format: { type: 'json_object' }
+  // We'll only include it for OpenAI and Gemini models which are more likely to support it
+  const supportsJsonMode = 
+    apiSettings.model.includes('openai/') || 
+    apiSettings.model.includes('google/') ||
+    apiSettings.model.includes('gpt-');
+
   const response = await client.chat.completions.create({
     model: apiSettings.model || 'openai/gpt-4o',
     temperature: apiSettings.temperature ?? 0.7,
-    max_tokens: 8000,
+    max_tokens: 4000, // Reduced from 8000 for better model compatibility
     messages: [
       { role: 'system', content: SYSTEM_PROMPT },
       { role: 'user', content: userPrompt },
     ],
-    response_format: { type: 'json_object' },
+    ...(supportsJsonMode ? { response_format: { type: 'json_object' } } : {}),
   });
 
   onProgress?.(70);
@@ -88,6 +95,11 @@ export async function regenerateSlide(
     },
   });
 
+  const supportsJsonMode = 
+    apiSettings.model.includes('openai/') || 
+    apiSettings.model.includes('google/') ||
+    apiSettings.model.includes('gpt-');
+
   const response = await client.chat.completions.create({
     model: apiSettings.model || 'openai/gpt-4o',
     temperature: (apiSettings.temperature ?? 0.7) + 0.1,
@@ -102,7 +114,7 @@ export async function regenerateSlide(
         content: `Regenerate this slide with better content for a ${config.tone} presentation targeting ${config.audience}:\n\n${slideContext}`,
       },
     ],
-    response_format: { type: 'json_object' },
+    ...(supportsJsonMode ? { response_format: { type: 'json_object' } } : {}),
   });
 
   const content = response.choices[0]?.message?.content;

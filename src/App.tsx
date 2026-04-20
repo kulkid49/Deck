@@ -225,10 +225,12 @@ const App: React.FC = () => {
                     className="w-full bg-surface-900 border border-surface-800 rounded-2xl p-4 text-surface-50 focus:outline-none focus:border-brand-500 transition-all appearance-none"
                   >
                     <option value="openai/gpt-4o">GPT-4o (Recommended)</option>
+                    <option value="openai/gpt-4o-mini">GPT-4o Mini (Fast & Cheap)</option>
                     <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
                     <option value="google/gemini-pro-1.5">Gemini Pro 1.5</option>
-                    <option value="meta-llama/llama-3-70b-instruct">Llama 3 70B</option>
-                    <option value="mistralai/mistral-large">Mistral Large</option>
+                    <option value="google/gemini-flash-1.5">Gemini Flash 1.5</option>
+                    <option value="meta-llama/llama-3.1-70b-instruct">Llama 3.1 70B</option>
+                    <option value="mistralai/mistral-large-2407">Mistral Large 2</option>
                   </select>
                 </div>
               </div>
